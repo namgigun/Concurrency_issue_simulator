@@ -1,0 +1,27 @@
+version: "3.9"
+
+# 개발환경에서는 redis만 실행하셔도 무관합니다
+services:
+  redis:
+    image: redis:7
+    container_name: local-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # 운영환경용 (MySQL)
+  mysql:
+    image: mysql:8.0
+    container_name: local-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: Concurrency_issue_simulator
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  redis_data:
+  mysql_data:

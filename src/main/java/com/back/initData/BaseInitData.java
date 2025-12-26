@@ -15,6 +15,7 @@ public class BaseInitData {
     ApplicationRunner baseInitDataApplicationRunner() {
         return args -> {
             postService.addPost();
+            postService.addPost();
         };
     }
 }

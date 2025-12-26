@@ -1,6 +1,7 @@
 package com.back.controller;
 
-import com.back.facade.OptimisticLockPostServiceFacade;
+import com.back.facade.OptimisticLockPostFacade;
+import com.back.facade.RedissonLockPostFacade;
 import com.back.service.PessimisticLockPostService;
 import com.back.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 public class PostController {
     private final PostService postService;
-    private final OptimisticLockPostServiceFacade optimisticLockPostServiceFacade;
+    private final OptimisticLockPostFacade optimisticLockPostFacade;
     private final PessimisticLockPostService pessimisticLockPostService;
-
+    private final RedissonLockPostFacade redissonLockPostFacade;
     // 설정 X
     @PostMapping("/{postId}/likes")
     public ResponseEntity<String> addLike (
@@ -34,7 +35,7 @@ public class PostController {
     public ResponseEntity<String> addLikeWithOptimisticLock (
             @PathVariable Long postId
     ) throws Exception {
-        Long likeCount = optimisticLockPostServiceFacade.addLike(postId);
+        Long likeCount = optimisticLockPostFacade.addLike(postId);
         return ResponseEntity.ok("현재 좋아요 개수는 %d개 입니다.\n".formatted(likeCount));
     }
 
@@ -45,5 +46,13 @@ public class PostController {
     ) {
         Long likeCount = pessimisticLockPostService.addLike(postId);
         return ResponseEntity.ok("현재 좋아요 개수는 %d개 입니다.\n".formatted(likeCount));
+    }
+
+    @PostMapping("/{postId}/likesWithRedissonLock")
+    public ResponseEntity<String> addLikeWithRedissonLock (
+            @PathVariable long postId
+    ) {
+        redissonLockPostFacade.addLike(postId);
+        return ResponseEntity.ok("좋아요 등록 완료 !!");
     }
 }

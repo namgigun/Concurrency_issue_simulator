@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class OptimisticLockPostServiceFacade {
+public class OptimisticLockPostFacade {
     private final OptimisticLockPostService optimisticLockPostService;
 
     public Long addLike(Long postId) throws InterruptedException {

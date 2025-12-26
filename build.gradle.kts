@@ -25,12 +25,36 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	/* ===============================
+       🔹 Spring Boot 핵심 스타터
+       =============================== */
+	// Spring Web
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	// Spring Data JPA
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	// Redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	// Redisson
+	implementation("org.redisson:redisson-spring-boot-starter:3.52.0")
+	/* ===============================
+       🔹 DB 드라이버
+       =============================== */
+	// MySQL JDBC 드라이버
 	runtimeOnly("com.mysql:mysql-connector-j")
+
+
+	/* ===============================
+       🔹 개발 편의 기능
+       =============================== */
+	// Lombok
+	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
+	// Devtools
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	/* ===============================
+       테스트 관련 의존성
+       =============================== */
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

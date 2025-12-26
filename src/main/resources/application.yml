@@ -17,3 +17,6 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+
+lock:
+  key: lock-key-
