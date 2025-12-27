@@ -1,6 +1,6 @@
 # 🚦 Concurrency_issue_simulator
-> 100개의 동시 좋아요 요청 환경에서 발생하는 Lost Update 문제를 여러 동시성 제어 방식으로 해결하고, 각 방식의 성능을 비교한 프로젝트 <br/>
-> ([개발과정](https://velog.io/@namgigun/series/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85))
+> 100개의 동시 좋아요 요청 환경에서 발생하는 Lost Update 문제를 여러 동시성 제어 방식으로 해결하고, <br/>
+각 방식의 성능을 비교한 프로젝트 ([개발과정](https://velog.io/@namgigun/series/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85))
 
 <br/>
 
