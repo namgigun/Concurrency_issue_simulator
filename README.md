@@ -130,8 +130,10 @@ public synchronized Long addLike(Long postId) {
 - 한 트랜잭션이 커밋되기 전에 다른 트랜잭션이 동일한 좋아요 개수를 기준으로 증가 연산을 진행하여 **Lost Update 문제 발생**
 
 **해결방법**
-- Post 엔티티에 버전 필드를 추가하여 트랜잭션 커밋 시점에 버전을 비교
 
+#### 낙관적 락 방식 도입
+
+- Post 엔티티에 버전 필드를 추가하여 트랜잭션 커밋 시점에 버전을 비교
 ```java
 @Entity
 @Getter
@@ -149,7 +151,9 @@ public class Post {
 }
 ```
 
-- 충돌 시 재시도하는 낙관적 락 방식 도입
+- 충돌 시, 재시도 로직 실행
+  - Post 테이블의 version 필드의 값과 트랙잭션의 version 값을 비교 후, 버전이 다른 경우 `ObjectOptimisticLockingFailureException` 발생
+  - 해당 예외가 발생하면 Thread는 50ms를 기다린 후, 비즈니스 로직을 재시도
 
 ```java
 // 좋아요 증가 로직 (낙관적 락 방식)
