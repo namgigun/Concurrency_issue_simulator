@@ -1,14 +1,13 @@
 # 🚦 Concurrency_issue_simulator
-> 100개의 동시 좋아요 요청 환경에서 발생하는 Lost Update 문제를 여러 동시성 제어 방식으로 해결하고, <br/>
-각 방식의 성능을 비교한 프로젝트 ([개발과정](https://velog.io/@namgigun/series/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85))
+> 100개의 동시 요청을 제어하고 사용한 제어 방법의 동시성 처리 성능 비교한 프로젝트 ([개발과정](https://velog.io/@namgigun/series/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85))
 
 <br/>
 
 ## 🎯 프로젝트 목적
 
-- 동시 요청 환경에서 발생하는 **Lost Update 문제를 직접 재현**
-- 다양한 동시성 제어 방식(낙관적 락, 비관적 락, Redis 분산 락)을 적용
-- **성능 테스트를 통해 각 락 방식의 특성과 한계를 수치로 비교**
+- 100개의 동시 요청 환경을 Apache JMeter로 재현
+- 다양한 동시성 제어 방식(`synchronized` 방식, 낙관적 락, 비관적 락, Redis 분산 락)를 사용하여 제어 여부 확인
+- **성능 테스트를 통해 각 락 방식을 수치로 비교**
 - 상황에 따라 적절한 락 전략을 선택할 수 있는 기준 도출
 
 <br/>
@@ -21,7 +20,7 @@
 | **Framework** | `Spring Boot` |
 | **Database** | `MySQL`, `Redis` |
 | **Version Control** | `Git`, `Github` |
-| **Performance Test** | `apache JMeter` |
+| **Performance Test** | `Apache JMeter` |
 
 <br/>
 
