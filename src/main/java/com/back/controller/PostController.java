@@ -48,6 +48,7 @@ public class PostController {
         return ResponseEntity.ok("현재 좋아요 개수는 %d개 입니다.\n".formatted(likeCount));
     }
 
+    // Redis 분산 락 적용
     @PostMapping("/{postId}/likesWithRedissonLock")
     public ResponseEntity<String> addLikeWithRedissonLock (
             @PathVariable long postId
