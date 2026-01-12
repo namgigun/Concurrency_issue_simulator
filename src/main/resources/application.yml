@@ -20,3 +20,13 @@ logging:
 
 lock:
   key: lock-key-
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always

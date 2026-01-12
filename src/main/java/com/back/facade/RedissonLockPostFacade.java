@@ -19,13 +19,12 @@ public class RedissonLockPostFacade {
     @Value("${lock.key}")
     private String key;
     private final PostService postService;
-
     public void addLike(Long postId) {
         RLock lock = redissonClient.getLock(key + postId.toString());
 
         try {
             // 3초 동안 락 획득 대기, 락을 얻으면 1초간 유지
-            boolean available = lock.tryLock(3, 1, TimeUnit.SECONDS);
+            boolean available = lock.tryLock(800, 800, TimeUnit.MILLISECONDS);
 
             // 락 획득에 실패한 경우
             if(!available) {
@@ -35,6 +34,7 @@ public class RedissonLockPostFacade {
 
             // 비즈니스 로직 실행
             postService.addLike(postId);
+
         } catch (InterruptedException e) { // 예외처리
             throw new RuntimeException(e);
         } finally {

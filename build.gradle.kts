@@ -56,7 +56,11 @@ dependencies {
        테스트 관련 의존성
        =============================== */
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	runtimeOnly("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// actuator
+	implementation ("org.springframework.boot:spring-boot-starter-actuator")
 }
 
 tasks.withType<Test> {

@@ -15,7 +15,6 @@ public class PessimisticLockPostService {
         Post post = postRepository.findByIdWithPessimisticLock(postId).orElseThrow();
 
         post.addLike();
-
         return post.getLikeCount();
     }
 }

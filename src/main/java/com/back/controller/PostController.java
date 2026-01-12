@@ -42,7 +42,7 @@ public class PostController {
     // 비관적 락 적용
     @PostMapping("/{postId}/likesWithPessimisticLock")
     public ResponseEntity<String> addLikeWithPessimisticLock (
-            @PathVariable long postId
+            @PathVariable Long postId
     ) {
         Long likeCount = pessimisticLockPostService.addLike(postId);
         return ResponseEntity.ok("현재 좋아요 개수는 %d개 입니다.\n".formatted(likeCount));
@@ -51,7 +51,7 @@ public class PostController {
     // Redis 분산 락 적용
     @PostMapping("/{postId}/likesWithRedissonLock")
     public ResponseEntity<String> addLikeWithRedissonLock (
-            @PathVariable long postId
+            @PathVariable Long postId
     ) {
         redissonLockPostFacade.addLike(postId);
         return ResponseEntity.ok("좋아요 등록 완료 !!");
