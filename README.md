@@ -1,11 +1,11 @@
 # 🚦 Concurrency_issue_simulator
-> 100개의 동시 요청을 제어하고 사용한 제어 방법의 동시성 처리 성능 비교한 프로젝트
+> 1000개의 동시 요청을 제어하고 사용한 제어 방법의 동시성 처리 성능 비교한 프로젝트
 
 <br/>
 
 ## 🎯 프로젝트 목적
 
-- 100개의 동시 요청 환경을 Apache JMeter로 재현
+- 1000개의 동시 요청 환경을 Apache JMeter로 재현
 - `synchronized` 방식, 낙관적 락, 비관적 락, Redis 분산 락을 적용하여
   **동시 요청 상황에서 데이터 정합성 제어 여부를 검증**
 - 성능 테스트를 통해 각 락 방식을 수치로 비교하여 **적합한 제어 방식을 도출**
@@ -20,71 +20,35 @@
 | **Framework** | `Spring Boot` |
 | **Database** | `MySQL` `Redis` |
 | **Version Control** | `Git` `Github` |
-| **Performance Test** | `Apache JMeter` |
-| **Measurement** | `Prometheus` `Grafana` `JUnit5`|
+| **Performance Test** | `Apache JMeter` `Prometheus` `Grafana` |
 
 <br/>
 
 ## 📊 성능비교
-> 모든 테스트는 **동일한 Post에 대해 동시에 100개의 좋아요 증가 요청**을 보내는 시나리오로 수행
+> 모든 테스트는 **동일한 Post에 대해 동시에 1000개의 좋아요 증가 요청**을 보내는 시나리오로 수행
 
-### 낙관적 락 vs 비관적 락 (`Apache JMeter`)
-
-**수행배경**
-- 낙관적 락 방식은 커밋 시점에 충돌을 감지하고 재시도를 수행하는 구조
-- `JUnit5` 기준 동시 요청 100건에 대해 평균 **550건의 충돌이 발생함**을 확인
-- 충돌로 인한 재시도 비용을 제거하기 위해 비관적 락을 도입 후, 두 방식의 성능을 비교
-
-<br/>
-
-**결과** 
-- 평균 API 응답 속도 : 낙관적 락 79ms → 비관적 락 32ms (약 2.5배 개선)
-- Throughput(초당 처리량) : 낙관적 락 90.6/sec → 비관적 락 100.8/sec
-
+`Apache JMeter`
 <p>
-  <img width="700" height="700" alt="image" 
-       src="https://github.com/user-attachments/assets/7fa1b2a9-7f95-4bcc-8be1-7d17f4729e3c"/>
+<img width="700" height="700" alt="image" 
+ src="https://github.com/user-attachments/assets/7c47c45e-f914-4f89-b0f1-407e2bde2450" />
+</p>
+
+`Prometheus + Grafana`
+<p>
+<img width="700" height="700" alt="image" 
+ src="https://github.com/user-attachments/assets/209f4b81-767e-4c2b-997b-de57d663a84a" />
 </p>
 
 <p>
 <img width="700" height="700" alt="image" 
-  src="https://github.com/user-attachments/assets/48fc29e6-ab58-4192-a336-6acab0eee243" />
+ src="https://github.com/user-attachments/assets/a27031c7-906a-475d-a9db-f03dc1977521" />
 </p>
 
 <br/>
 
-**결론**
-- 충돌이 빈번하게 발생하는 시나리오에서는 재시도 비용이 발생하는 낙관적 락보다 비관적 락이 더 빠른 응답 시간과 높은 처리량을 보임
-- 따라서, 높은 충돌 가능성이 예상되는 환경에서는 비관적 락이 더 적합할 수 있음을 확인
+## 결론
+작성중
 
-<br/>
-
-### 비관적 락 vs Redis 분산락 (`Promethus + Grafana` / `Apache JMeter`)
-
-**수행배경**
-- 비관적 락 방식은 트랜잭션이 커밋될 때까지 다른 트랜잭션은 대기하는 방식
-- 이로 인해 평균 트랜잭션의 DB 커넥션 점유 시간이 증가, 결과적으로 DB 처리량 저하로 이어질 가능성이 있음
-- 이를 해결하기 위해, `Redisson` 기반 분산 락을 도입하여 락 관리 책임을 Redis로 분리
-
-<br/>
-
-**결과**
-- DB 커넥션 점유 시간 : 비관적 락 12ms → Redis 분산 락 7ms (약 1.7배 개선)
-- 평균 API 응답 시간 :  비관적 락 9ms → Redis 분산 락 17ms (약 1.9배 증가)
-
-<p>
- <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/be53239a-0beb-42b5-bac1-6d7cb307dd41" />
-</p>
-
-<p>
- <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/36c61bfa-b0c4-4caa-9d74-a7a0591c3897" />
-</p>
-
-**결론**
--  Redis 분산 락 적용을 통해 DB 커넥션 점유 시간은 약 1.7배 개선되었으나, <br/>
-Redis 락 획득 과정에서 발생하는 평균 락 대기 시간으로 전체 API 응답 시간은 약 1.9배 증가하는 Trade-Off를 확인.
-
-<br/>
 
 ## 🚨 트러블 슈팅
 
