@@ -18,40 +18,40 @@
 |------|------------|
 | **Language** | `Java` |
 | **Framework** | `Spring Boot` |
-| **Database** | `MySQL`, `Redis` |
-| **Version Control** | `Git`, `Github` |
-| **Test / Measurement** | `JUnit5` |
+| **Database** | `MySQL` `Redis` |
+| **Version Control** | `Git` `Github` |
 | **Performance Test** | `Apache JMeter` |
+| **Measurement** | `Prometheus` `Grafana` `JUnit5`|
 
 <br/>
 
 ## 📊 성능비교
 > 모든 테스트는 **동일한 Post에 대해 동시에 100개의 좋아요 증가 요청**을 보내는 시나리오로 수행
 
-### 낙관적 락 vs 비관적 락 (Apache JMeter)
+### 낙관적 락 vs 비관적 락 (`Apache JMeter`)
 
 **수행배경**
 - 낙관적 락 방식은 커밋 시점에 충돌을 감지하고 재시도를 수행하는 구조
-- `JUnit5` 기준 동시 요청 100건에 대해 **500 ~ 600건의 충돌 발생함**을 확인
+- `JUnit5` 기준 동시 요청 100건에 대해 평균 **550건의 충돌이 발생함**을 확인
 - 충돌로 인한 재시도 비용을 제거하기 위해 비관적 락을 도입 후, 두 방식의 성능을 비교
 
 <br/>
 
-**낙관적 락**
+**결과** 
+- 평균 API 응답 속도 : 낙관적 락 79ms → 비관적 락 32ms (약 2.5배 개선)
+- Throughput(초당 처리량) : 낙관적 락 90.6/sec → 비관적 락 100.8/sec
+
 <p>
   <img width="700" height="700" alt="image" 
        src="https://github.com/user-attachments/assets/7fa1b2a9-7f95-4bcc-8be1-7d17f4729e3c"/>
 </p>
 
-**비관적 락**
 <p>
 <img width="700" height="700" alt="image" 
   src="https://github.com/user-attachments/assets/48fc29e6-ab58-4192-a336-6acab0eee243" />
 </p>
 
-**결과**
-- 평균 API 응답 속도 : 낙관적 락 79ms → 비관적 락 32ms (약 2.5배 개선)
-- Throughput(초당 처리량) : 낙관적 락 90.6/sec → 비관적 락 100.8/sec
+<br/>
 
 **결론**
 - 충돌이 빈번하게 발생하는 시나리오에서는 재시도 비용이 발생하는 낙관적 락보다 비관적 락이 더 빠른 응답 시간과 높은 처리량을 보임
@@ -59,7 +59,7 @@
 
 <br/>
 
-### 비관적 락 vs Redis 분산락 (JUnit5)
+### 비관적 락 vs Redis 분산락 (`Promethus + Grafana` / `Apache JMeter`)
 
 **수행배경**
 - 비관적 락 방식은 트랜잭션이 커밋될 때까지 다른 트랜잭션은 대기하는 방식
@@ -68,25 +68,21 @@
 
 <br/>
 
-**비관적 락**
-<p>
-<img width="700" height="700" alt="image" 
-  src="https://github.com/user-attachments/assets/24b760cd-c82f-439e-ad70-89013f510fd0" />
-</p>
-
-
-**Redis 분산락**
-<p>
-<img width="700" height="700" alt="image" 
-  src="https://github.com/user-attachments/assets/a52e06b6-4b9a-472e-befc-c00a9388b262" />
-</p>
-
 **결과**
-- 평균 트랜잭션 수행 시간 : 약 276ms → 6ms (46배 단축)
-- 락 대기 시간 : 약 39ms → 431ms (11배 증가)
+- DB 커넥션 점유 시간 : 비관적 락 12ms → Redis 분산 락 7ms (약 1.7배 개선)
+- 평균 API 응답 시간 :  비관적 락 9ms → Redis 분산 락 17ms (약 1.9배 증가)
+
+<p>
+ <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/be53239a-0beb-42b5-bac1-6d7cb307dd41" />
+</p>
+
+<p>
+ <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/36c61bfa-b0c4-4caa-9d74-a7a0591c3897" />
+</p>
 
 **결론**
-- Redis 분산 락은 트랜잭션의 DB 커넥션 점유 시간을 줄이는 대신, 락 획득을 위한 대기 시간이 증가하는 트레이드오프 확인
+-  Redis 분산 락 적용을 통해 DB 커넥션 점유 시간은 약 1.7배 개선되었으나, <br/>
+Redis 락 획득 과정에서 발생하는 평균 락 대기 시간으로 전체 API 응답 시간은 약 1.9배 증가하는 Trade-Off를 확인.
 
 <br/>
 
