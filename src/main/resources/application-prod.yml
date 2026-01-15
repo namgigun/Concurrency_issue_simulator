@@ -1,0 +1,34 @@
+# 도커 배포용
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: create
+
+  data:
+    redis:
+      host: local-redis
+      port: 6379
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://local-mysql:3306/Concurrency_issue_simulator
+    username: root
+    password: 1234
+
+lock:
+  key: lock-key-
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always

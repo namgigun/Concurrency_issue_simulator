@@ -1,4 +1,4 @@
-FROM gradle:jdk-21-and-23-graal-jammy
-VOLUME /tmp
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
 COPY build/libs/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
