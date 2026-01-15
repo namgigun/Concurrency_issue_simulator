@@ -30,7 +30,7 @@
 `Apache JMeter`
 <p>
 <img width="700" height="700" alt="image" 
- src="https://github.com/user-attachments/assets/7c47c45e-f914-4f89-b0f1-407e2bde2450" />
+ src="https://github.com/user-attachments/assets/d03e7a04-f16e-4758-94d8-37edda3c1294" />
 </p>
 
 `Prometheus + Grafana`
