@@ -23,8 +23,8 @@ public class RedissonLockPostFacade {
         RLock lock = redissonClient.getLock(key + postId.toString());
 
         try {
-            // 3초 동안 락 획득 대기, 락을 얻으면 1초간 유지
-            boolean available = lock.tryLock(800, 800, TimeUnit.MILLISECONDS);
+            // 4초 동안 락 획득 대기, 락을 얻으면 1초간 유지
+            boolean available = lock.tryLock(4, 1, TimeUnit.SECONDS);
 
             // 락 획득에 실패한 경우
             if(!available) {
