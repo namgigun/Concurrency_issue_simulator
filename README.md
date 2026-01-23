@@ -98,12 +98,12 @@ public synchronized Long addLike(Long postId) {
 ```
 
 **결과**
-- 예상 결과 → 좋아요 개수 100개
-- 실제 결과 → 좋아요 개수는 85개
+- 예상 결과 → 좋아요 개수 1000개
+- 실제 결과 → 좋아요 개수는 170개
 
 **원인분석**
 - `synchronized`는 트랜잭션 자체에 락을 거는 것이 아닌 메서드 실행 구간에 대해서만 락을 제공
-- 한 트랜잭션이 커밋되기 전에 다른 트랜잭션이 동일한 좋아요 개수를 기준으로 증가 연산이 진행되는 **Lost Update 문제 발생**
+- 하나의 트랜잭션이 커밋되기 전에 다른 트랜잭션이 동일한 좋아요 개수를 기준으로 증가 연산이 진행되는 **요청 누락 문제 발생**
 
 **해결방법**
 
@@ -152,5 +152,7 @@ public Long addLike(Long postId) throws InterruptedException {
 ```
 
 **결과**
-- 동시 100개의 좋아요 요청에 대해 DB에 100개의 좋아요가 반영되는 것을 확인
-  <img width="729" height="108" alt="image" src="https://github.com/user-attachments/assets/5df9cf27-084e-4db8-80d2-f28d1dc23f61" />
+- 동시 1000개의 좋아요 요청에 대해 DB에 1000개의 좋아요가 반영되는 것을 확인
+<p>
+<img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/217cba05-1bfe-4995-955e-183de6ee8beb" />
+</p>
