@@ -35,8 +35,8 @@ class OptimisticLockPostFacadeTest {
     // 재시도 오버헤드 확인을 위한 테스트 메서드
     @Test
     void concurrent_like_test() throws Exception {
-        int threadCount = 100;
-        ExecutorService executor = Executors.newFixedThreadPool(100);
+        int threadCount = 1000;
+        ExecutorService executor = Executors.newFixedThreadPool(32);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
         for (int i = 0; i < threadCount; i++) {
