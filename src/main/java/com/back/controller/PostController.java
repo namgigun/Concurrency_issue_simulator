@@ -2,6 +2,7 @@ package com.back.controller;
 
 import com.back.facade.OptimisticLockPostFacade;
 import com.back.facade.RedissonLockPostFacade;
+import com.back.service.OptimisticLockPostService;
 import com.back.service.PessimisticLockPostService;
 import com.back.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 public class PostController {
     private final PostService postService;
-    private final OptimisticLockPostFacade optimisticLockPostFacade;
+    private final OptimisticLockPostService optimisticLockPostService;
     private final PessimisticLockPostService pessimisticLockPostService;
     private final RedissonLockPostFacade redissonLockPostFacade;
     // 설정 X
@@ -35,7 +36,7 @@ public class PostController {
     public ResponseEntity<String> addLikeWithOptimisticLock (
             @PathVariable Long postId
     ) throws Exception {
-        Long likeCount = optimisticLockPostFacade.addLike(postId);
+        Long likeCount = optimisticLockPostService.addLike(postId);
         return ResponseEntity.ok("현재 좋아요 개수는 %d개 입니다.\n".formatted(likeCount));
     }
 

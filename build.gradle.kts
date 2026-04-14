@@ -64,6 +64,9 @@ dependencies {
 
 	// prometheus
 	implementation ("io.micrometer:micrometer-registry-prometheus")
+
+    // spring-retry
+    implementation ("org.springframework.retry:spring-retry")
 }
 
 tasks.withType<Test> {
