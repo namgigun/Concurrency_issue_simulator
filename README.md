@@ -28,18 +28,18 @@
 
 `Apache JMeter`
 <p>
-<img width="700" height="700" alt="image" 
+<img width="900" height="100" alt="image" 
  src="https://github.com/user-attachments/assets/d03e7a04-f16e-4758-94d8-37edda3c1294" />
 </p>
 
 `Prometheus + Grafana`
 <p>
-<img width="700" height="700" alt="image" 
+<img width="900" height="500" alt="image" 
  src="https://github.com/user-attachments/assets/209f4b81-767e-4c2b-997b-de57d663a84a" />
 </p>
 
 <p>
-<img width="700" height="700" alt="image" 
+<img width="800" height="300" alt="image" 
  src="https://github.com/user-attachments/assets/a27031c7-906a-475d-a9db-f03dc1977521" />
 </p>
 
