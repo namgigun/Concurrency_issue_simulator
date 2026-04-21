@@ -153,5 +153,5 @@ public Long addLike(Long postId) throws InterruptedException {
 **결과**
 - 동시 1000개의 좋아요 요청에 대해 DB에 1000개의 좋아요가 반영되는 것을 확인
 <p>
-<img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/217cba05-1bfe-4995-955e-183de6ee8beb" />
+<img width="900" height="250" alt="image" src="https://github.com/user-attachments/assets/217cba05-1bfe-4995-955e-183de6ee8beb" />
 </p>
